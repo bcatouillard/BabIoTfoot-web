@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <router-view />
   </div>
 </template>
 
@@ -13,3 +14,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+div {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+}
+</style>

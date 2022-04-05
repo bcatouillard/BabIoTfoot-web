@@ -1,21 +1,37 @@
 <template>
   <section class="section">
-    <h2 class="title is-3 has-text-grey">
-      "Just start  <b-icon
-        icon="rocket"
-        size="is-large"
-      />"
-    </h2>
-    <h3 class="subtitle is-6 has-text-grey">
-      Author: <a href="https://github.com/anteriovieira">
-        Antério Vieira
-      </a>
-    </h3>
+    <div class="container">
+      <h2 class="title is-2">
+        Classement
+      </h2>
+      <RankTable />
+    </div>
   </section>
 </template>
 
 <script>
+import RankTable from '~/components/RankTable.vue'
 export default {
-  name: 'InspirePage'
+  name: 'RankingPage',
+  components: { RankTable },
+  data () {
+    return {
+      items: []
+    }
+  }
 }
 </script>
+
+<style lang="scss">
+.section {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+</style>

@@ -56,15 +56,12 @@ export default {
 
 <style lang="scss">
 .menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
   width: 300px;
   background: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 100;
   transition: width 0.2s ease-out;
+  min-height: 100vh;
 
   &.is-active {
     .container {
@@ -87,7 +84,6 @@ export default {
       }
     }
     .menu-list {
-      min-height: 100vh;
       width: 100%;
     }
     .menu-item {
@@ -132,7 +128,6 @@ export default {
       cursor: pointer;
     }
     .menu-list {
-      min-height: 100vh;
       width: 100%;
     }
     .menu-item {

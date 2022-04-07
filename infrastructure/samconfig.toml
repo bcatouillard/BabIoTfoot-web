@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "ebabyfoot-web-stack"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-gh3gtvbv9bnb"
+s3_prefix = "ebabyfoot-web-stack"
+region = "eu-central-1"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "WebSocketConnectionsTableNameSuffix=\"websocket_connections\" ReadCapacityUnits=\"5\" WriteCapacityUnits=\"5\" BabyfootStackName=\"ebabyfoot-iot-stack\" EnvironmentName=\"ebabyfoot\" Stage=\"dev\""
+image_repositories = []

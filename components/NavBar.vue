@@ -55,6 +55,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~/assets/scss/variables.scss';
+
 .menu {
   width: 300px;
   background: #fff;
@@ -149,6 +151,14 @@ export default {
           display: none;
         }
       }
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .menu {
+    img {
+      max-width: unset !important;
     }
   }
 }

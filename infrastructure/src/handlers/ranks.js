@@ -17,7 +17,10 @@ exports.handler = async(event) => {
 
   let response = {
     statusCode: 200,
-    headers: {},
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
     isBase64Encoded: false
   };
 

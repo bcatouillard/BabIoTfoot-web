@@ -26,11 +26,13 @@ export default {
   mounted () {
     this.socket = this.$nuxtSocket({
       path: '/babyfoot',
+      reconnectionDelayMax: 1000,
+      transports: ['websocket'],
       withCredentials: true,
       reconnection: false
     })
 
-    this.socket.emit('{"action":"rank"}', (data) => {
+    this.socket.emit('rank', (data) => {
       this.rank = data
     })
   }

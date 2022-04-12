@@ -4,6 +4,15 @@ const dynamoDBClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10
 exports.handler = async(event) => {
   console.log('event ::>', event);  
 
+  let response = {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    isBase64Encoded: false
+  };
+
   const deleteParams = {
     TableName: process.env.TABLE_NAME,
     Key: {
@@ -13,7 +22,12 @@ exports.handler = async(event) => {
 
   try {
     await dynamoDBClient.delete(deleteParams).promise();
+
+    response.body = 'Disconnected';
+    return response;
   } catch (error) {
-    return { statusCode: 500, body: `Failed to disconnect : ${JSON.stringify(error)}` };
+    response.body = `Failed to disconnect : ${error.message}`;
+    response.statusCode = 500;
+    return response;
   }
 };

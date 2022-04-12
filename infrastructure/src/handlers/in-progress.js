@@ -3,6 +3,15 @@ const dynamoDBClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10
 const Status = require('../utils/Status');
 
 exports.handler = async(event) => {
+
+  let response = {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    isBase64Encoded: false
+  };
   
   const params = {
     TableName: process.env.BABYFOOT_TABLE,
@@ -15,7 +24,8 @@ exports.handler = async(event) => {
   try {
     const inProgressMatches = await dynamoDBClient.scan(params).promise();
 
-    return { statusCode: 200, body: JSON.stringify(inProgressMatches.Items) };
+    response.body = JSON.stringify(inProgressMatches.Items);
+    return response;
   } catch (error) {
     return { statusCode: 500, body: `Failed to fetch data : ${error.message}}` };
   }

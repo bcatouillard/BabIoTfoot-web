@@ -14,6 +14,8 @@ exports.handler = async(event) => {
 
   try {
     await dynamoDBClient.put(insertParams).promise();
+
+    return { statusCode: 200, body: 'Connected' };
   } catch (error) {
     return { statusCode: 500, body: `Failed to connect : ${error.message}` };
   }

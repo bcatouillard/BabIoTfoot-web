@@ -2,8 +2,8 @@ const AWS = require('aws-sdk');
 const dynamoDBClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10', region: 'eu-central-1' });
 const Status = require('../utils/Status');
 
-exports.handler = async() => {
-
+exports.handler = async(event) => {
+  
   const params = {
     TableName: process.env.BABYFOOT_TABLE,
     ExpressionAttributeValues: {

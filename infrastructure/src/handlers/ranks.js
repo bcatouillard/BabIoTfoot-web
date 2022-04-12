@@ -4,6 +4,7 @@ const { main , replacer} = require('../utils/formatData');
 const Status = require('../utils/Status');
 
 exports.handler = async(event) => {
+  console.log('event :>> ', event);
   let playersMap;
 
   const params = {

@@ -3,6 +3,7 @@ const dynamoDBClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10
 const Status = require('../utils/Status');
 
 exports.handler = async(event) => {
+  console.log('event :>> ', event);
 
   let response = {
     statusCode: 200,

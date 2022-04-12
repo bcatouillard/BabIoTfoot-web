@@ -3,6 +3,8 @@
     <div class="container">
       <h2 class="title is-2">
         Classement
+
+        {{ rank }}
       </h2>
       <RankTable />
     </div>
@@ -20,9 +22,11 @@ export default {
       items: []
     }
   },
-  computed: mapState({
-    rank: state => state.rank.rank
-  }),
+  computed: {
+    ...mapState({
+      rank: state => state.rank
+    })
+  },
   mounted () {
     this.socket = this.$nuxtSocket({
       path: '/babyfoot',
@@ -32,8 +36,8 @@ export default {
       reconnection: false
     })
 
-    this.socket.emit('rank', (data) => {
-      this.rank = data
+    this.socket.on('rank', (data) => {
+      this.$store.commit('rank/SET_RANKING', data)
     })
   }
 }

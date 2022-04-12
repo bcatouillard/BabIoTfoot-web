@@ -3,7 +3,7 @@ require('dotenv').config()
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'babIOTfoot',
+    title: 'BabIoTfoot',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -55,9 +55,17 @@ export default {
       {
         name: 'default',
         url: process.env.WEBSOCKET_URL,
-        default: true
+        default: true,
+        extraHeaders: {
+          "Sec-WebSocket-Protocol" : "myprotocol"
+        }
       }
-    ]
+    ],
+    server: {
+      cors: {
+        origin: "*"
+      }
+    }
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

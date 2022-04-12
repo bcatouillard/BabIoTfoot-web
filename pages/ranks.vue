@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import RankTable from '~/components/RankTable.vue'
 export default {
   name: 'RankingPage',
@@ -18,6 +19,20 @@ export default {
     return {
       items: []
     }
+  },
+  computed: mapState({
+    rank: state => state.rank.rank
+  }),
+  mounted () {
+    this.socket = this.$nuxtSocket({
+      path: '/babyfoot',
+      withCredentials: true,
+      reconnection: false
+    })
+
+    this.socket.emit('{"action":"rank"}', (data) => {
+      this.rank = data
+    })
   }
 }
 </script>

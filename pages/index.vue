@@ -1,52 +1,59 @@
 <template>
   <section class="section">
-    <div class="columns is-mobile">
-      <card
-        title="Free"
-        icon="github"
-      >
-        Open source on <a href="https://github.com/buefy/buefy">
-          GitHub
-        </a>
-      </card>
-
-      <card
-        title="Responsive"
-        icon="cellphone-link"
-      >
-        <b class="has-text-grey">
-          Every
-        </b> component is responsive
-      </card>
-
-      <card
-        title="Modern"
-        icon="alert-decagram"
-      >
-        Built with <a href="https://vuejs.org/">
-          Vue.js
-        </a> and <a href="http://bulma.io/">
-          Bulma
-        </a>
-      </card>
-
-      <card
-        title="Lightweight"
-        icon="arrange-bring-to-front"
-      >
-        No other internal dependency
-      </card>
+    <div class="container">
+      <h2 class="title is-2">
+        Matchs en cours
+      </h2>
+      <matches-list :matches="inProgressMatches" />
+    </div>
+    <div class="container">
+      <h2 class="title is-2">
+        Matchs en attente
+      </h2>
+      <matches-list :matches="pendingMatches" />
     </div>
   </section>
 </template>
 
 <script>
-import Card from '~/components/Card'
-
+import { mapState } from 'vuex'
 export default {
   name: 'IndexPage',
-  components: {
-    Card
+  head: {
+    title: 'BabIoTFoot - Matchs'
+  },
+  computed: {
+    ...mapState({
+      inProgressMatches: state => state.inprogress.inProgressMatches,
+      pendingMatches: state => state.inprogress.pendingMatches
+    })
+  },
+  mounted () {
+    this.$socket = new WebSocket(process.env.WEBSOCKET_URL)
+
+    this.$socket.onopen = () => {
+      this.$socket.send(JSON.stringify({
+        action: 'inprogress'
+      }))
+    }
+
+    this.$socket.onmessage = (event) => {
+      const parsedData = JSON.parse(event.data)
+      this.$store.commit('inprogress/SET_INPROGRESSMATCHES', parsedData.inProgress)
+      this.$store.commit('inprogress/SET_PENDINGMATCHES', parsedData.paused)
+    }
+
+    this.$socket.onclose = (event) => {
+      if (event.wasClean) {
+        alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`)
+      } else {
+        alert('[close] Connection died')
+      }
+    }
+
+    this.$socket.onerror = (error) => {
+      alert(`[error] ${error.message}`)
+    }
   }
 }
 </script>

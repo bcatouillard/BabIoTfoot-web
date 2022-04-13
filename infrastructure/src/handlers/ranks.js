@@ -3,7 +3,9 @@ const dynamoDBClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10
 const { main , replacer} = require('../utils/formatData');
 const Status = require('../utils/Status');
 
-exports.handler = async() => {
+exports.handler = async(event) => {
+  console.log('event :>> ', event);
+  let playersMap;
 
   const params = {
     TableName: process.env.BABYFOOT_TABLE,
@@ -14,13 +16,26 @@ exports.handler = async() => {
     FilterExpression: "statut in (:status1, :status2)"
   };
 
+  let response = {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    isBase64Encoded: false
+  };
+
   try {
     const matches = await dynamoDBClient.scan(params).promise();
 
-    const playersMap = main(matches.Items);
+    playersMap = main(matches.Items);
 
-    return { statusCode: 200, body: JSON.stringify(replacer(playersMap)) };
+    response.body = JSON.stringify(replacer(playersMap));
   } catch (error) {
-    return { statusCode: 500, body: `Failed to fetch data : ${error.message}` };
+    response.body = `Failed to fetch data : ${error.message}`
+    return response;
   }
+  
+  console.log('response :>> ', response);
+  return response
 };

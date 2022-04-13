@@ -9,7 +9,7 @@
       field="name"
       label="Nom"
     >
-      {{ props.row.name }}
+      {{ formatString(props.row.name) }}
     </b-table-column>
 
     <b-table-column
@@ -20,7 +20,7 @@
       sortable
       numeric
     >
-      {{ props.row.wonMatches }}
+      {{ props.row.value.wonMatches }}
     </b-table-column>
 
     <b-table-column
@@ -31,18 +31,36 @@
       sortable
       numeric
     >
-      {{ props.row.lostMatches }}
+      {{ props.row.value.lostMatches }}
+    </b-table-column>
+
+    <b-table-column
+      v-slot="props"
+      field="abandonnedMatches"
+      label="Matchs abandonnés"
+      centered
+      sortable
+      numeric
+    >
+      {{ props.row.value.abandonnedMatches }}
     </b-table-column>
   </b-table>
 </template>
 
 <script>
-const data = require('~/static/sample.json')
 export default {
   name: 'RankTable',
-  data () {
-    return {
-      data
+  props: {
+    data: {
+      type: Array,
+      required: true
+    }
+  },
+  methods: {
+    formatString (str) {
+      return str.replace(/\w\S*/g, (txt) => {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+      })
     }
   }
 }

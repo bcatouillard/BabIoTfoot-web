@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: "AWS::Serverless-2016-10-31"
-Description: An Amazon API Gateway WebSocket API and an AWS Lambda function.
+Description: API Gateway Websockets for BabIoTFoot Website
 
 # Global values that are applied to all applicable resources in this template
 Globals:
@@ -73,7 +73,7 @@ Resources:
     Type: "AWS::ApiGatewayV2::Api"
     Properties:
       Name: !Sub "${EnvironmentName}-${Stage}-websocket-api"
-      Description: An Amazon API Gateway WebSocket API and an AWS Lambda function.
+      Description: API Gateway Websockets for BabIoTFoot Website
       ProtocolType: WEBSOCKET
       RouteSelectionExpression: "$request.body.action"
 
@@ -105,7 +105,7 @@ Resources:
     Properties:
       ApiId: !Ref WebSocketApi
       Description: OnConnect Integration
-      IntegrationType: AWS_PROXY
+      IntegrationType: AWS
       IntegrationUri:
         Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnConnectLambdaFunction.Arn}/invocations
 
@@ -120,6 +120,13 @@ Resources:
         - "/"
         - - "integrations"
           - !Ref OnConnectIntegration
+
+  OnConnectRouteResponse:
+    Type: AWS::ApiGatewayV2::RouteResponse
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteId: !Ref OnConnectRoute
+      RouteResponseKey: $default
 
   # Lambda Function - uses Globals to define additional configuration values
   InProgressLambdaFunction:
@@ -160,7 +167,7 @@ Resources:
     Properties:
       ApiId: !Ref WebSocketApi
       Description: InProgress Integration
-      IntegrationType: AWS_PROXY
+      IntegrationType: AWS
       IntegrationUri:
         Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${InProgressLambdaFunction.Arn}/invocations
 
@@ -175,6 +182,13 @@ Resources:
         - "/"
         - - "integrations"
           - !Ref InProgressIntegration
+
+  InProgressRouteResponse:
+    Type: AWS::ApiGatewayV2::RouteResponse
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteId: !Ref InProgressRoute
+      RouteResponseKey: $default
 
   # Lambda Function - uses Globals to define additional configuration values
   RankLambdaFunction:
@@ -215,7 +229,7 @@ Resources:
     Properties:
       ApiId: !Ref WebSocketApi
       Description: Rank Integration
-      IntegrationType: AWS_PROXY
+      IntegrationType: AWS
       IntegrationUri:
         Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RankLambdaFunction.Arn}/invocations
 
@@ -230,6 +244,13 @@ Resources:
         - "/"
         - - "integrations"
           - !Ref RankIntegration
+
+  RankRouteResponse:
+    Type: AWS::ApiGatewayV2::RouteResponse
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteId: !Ref RankRoute
+      RouteResponseKey: $default
 
   # Lambda Function - uses Globals to define additional configuration values
   OnDisconnectLambdaFunction:
@@ -259,7 +280,7 @@ Resources:
     Properties:
       ApiId: !Ref WebSocketApi
       Description: OnDisconnect Integration
-      IntegrationType: AWS_PROXY
+      IntegrationType: AWS
       IntegrationUri:
         Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnDisconnectLambdaFunction.Arn}/invocations
 
@@ -274,6 +295,13 @@ Resources:
         - "/"
         - - "integrations"
           - !Ref OnDisconnectIntegration
+
+  OnDisconnectRouteResponse:
+    Type: AWS::ApiGatewayV2::RouteResponse
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteId: !Ref OnDisconnectRoute
+      RouteResponseKey: $default
 
   WebSocketConnectionsTableName:
     Type: AWS::DynamoDB::Table
@@ -331,7 +359,7 @@ Outputs:
           ".execute-api.",
           !Ref "AWS::Region",
           ".amazonaws.com/",
-          !Ref "Stage",
+          !Ref "ApiStage",
         ],
       ]
   WebSocketConnectionsTableNameArn:

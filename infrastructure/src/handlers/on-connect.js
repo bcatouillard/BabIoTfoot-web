@@ -3,6 +3,14 @@ const dynamoDBClient = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10
 
 exports.handler = async(event) => {
   console.log('event :>>', event);
+  let response = {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true
+    },
+    isBase64Encoded: false
+  };
 
   const insertParams = {
     TableName: process.env.TABLE_NAME,
@@ -14,7 +22,22 @@ exports.handler = async(event) => {
 
   try {
     await dynamoDBClient.put(insertParams).promise();
+
+    response.body = 'Connected'
+    return response;
+
   } catch (error) {
-    return { statusCode: 500, body: `Failed to connect : ${error.message}` };
+    
+    response.body = `Failed to connect : ${error.message}`;
+    response.statusCode = 500;
+    return response;
   }
 };
+
+const toLowerCaseProperties = (obj) => {
+  const wrapper = {};
+  for (const key in obj) {
+      wrapper[key.toLowerCase()] = obj[key];
+  }
+  return wrapper;
+}

@@ -19,13 +19,22 @@ exports.handler = async(event) => {
     ExpressionAttributeValues: {
       ":status": Status.inprogress
     },
-    FilterExpression: "statut = :status",
+    FilterExpression: "statut = :status"
   }
+  
+  const pausedParams = {...params, ExpressionAttributeValues: {":status": Status.paused}}
+  
 
   try {
     const inProgressMatches = await dynamoDBClient.scan(params).promise();
+    const pausedMatches = await dynamoDBClient.scan(pausedParams).promise();
+    
+    const body = {
+      inProgress: inProgressMatches.Items,
+      paused: pausedMatches.Items
+    }
 
-    response.body = JSON.stringify(inProgressMatches.Items);
+    response.body = JSON.stringify(body);
     return response;
   } catch (error) {
     return { statusCode: 500, body: `Failed to fetch data : ${error.message}}` };

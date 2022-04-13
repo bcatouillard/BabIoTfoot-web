@@ -2,19 +2,26 @@ export const namespaced = true
 
 export const state = () => {
   return {
-    inProgressMatches: []
+    inProgressMatches: [],
+    pendingMatches: []
   }
 }
 
 export const mutations = {
-  SET_MATCHES (state, payload) {
+  SET_INPROGRESSMATCHES (state, payload) {
     state.inProgressMatches = payload
+  },
+  SET_PENDINGMATCHES (state, payload) {
+    state.pendingMatches = payload
   }
 }
 
 export const actions = {
-  FORMAT_MATCHES ({ commit }, payload) {
-    commit('SET_MATCHES', payload)
+  FORMAT_INPROGRESSMATCHES ({ commit }, payload) {
+    commit('SET_INPROGRESSMATCHES', payload)
+  },
+  FORMAT_PENDINGMATCHES ({ commit }, payload) {
+    commit('SET_PENDINGMATCHES', payload)
   }
 }
 

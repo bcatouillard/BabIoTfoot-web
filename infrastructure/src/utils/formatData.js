@@ -101,11 +101,8 @@ const main = (data) => {
   return playersMap;
 }
 
-const replacer = m => {
-  return Array.from(m).reduce((obj, [key, value]) => {
-    obj[key] = value;
-    return obj;
-  }, {});
+const replacer = map => {
+  return Array.from(map, ([name, value]) => ({ name, value }));
 };
 
 module.exports = { main, replacer };

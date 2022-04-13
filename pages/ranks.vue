@@ -3,10 +3,8 @@
     <div class="container">
       <h2 class="title is-2">
         Classement
-
-        {{ rank }}
       </h2>
-      <RankTable />
+      <RankTable :data="rank" />
     </div>
   </section>
 </template>
@@ -24,21 +22,33 @@ export default {
   },
   computed: {
     ...mapState({
-      rank: state => state.rank
+      rank: state => state.rank.rank
     })
   },
   mounted () {
-    this.socket = this.$nuxtSocket({
-      path: '/babyfoot',
-      reconnectionDelayMax: 1000,
-      transports: ['websocket'],
-      withCredentials: true,
-      reconnection: false
-    })
+    this.$socket = new WebSocket(process.env.WEBSOCKET_URL)
 
-    this.socket.on('rank', (data) => {
-      this.$store.commit('rank/SET_RANKING', data)
-    })
+    this.$socket.onopen = () => {
+      this.$socket.send(JSON.stringify({
+        action: 'rank'
+      }))
+    }
+
+    this.$socket.onmessage = (event) => {
+      this.$store.commit('rank/SET_RANKING', JSON.parse(event.data))
+    }
+
+    this.$socket.onclose = (event) => {
+      if (event.wasClean) {
+        alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`)
+      } else {
+        alert('[close] Connection died')
+      }
+    }
+
+    this.$socket.onerror = (error) => {
+      alert(`[error] ${error.message}`)
+    }
   }
 }
 </script>

@@ -19,6 +19,9 @@
 import { mapState } from 'vuex'
 export default {
   name: 'IndexPage',
+  head: {
+    title: 'BabIoTFoot - Matchs'
+  },
   computed: {
     ...mapState({
       inProgressMatches: state => state.inprogress.inProgressMatches,

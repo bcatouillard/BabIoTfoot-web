@@ -1,10 +1,8 @@
 <template>
   <aside class="menu" :class="{'is-active': isActive, 'is-inactive': !isActive}">
     <div v-if="isActive" class="container">
-      <div>
-        <img src="~/assets/icons/close.svg" @click="toggleMenu()" />
-      </div>
-      <img src="~/assets/icons/babyfoot.svg" />
+      <h1>BabIoTFoot</h1>
+      <img src="~/assets/icons/close.svg" @click="toggleMenu()" />
     </div>
     <div v-else>
       <div>
@@ -31,7 +29,7 @@ export default {
   name: 'NavBar',
   data () {
     return {
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: 'Accueil',
@@ -68,21 +66,14 @@ export default {
   &.is-active {
     .container {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      justify-content: center;
-      height: 18%;
+      justify-content: space-around;
+      height: 6%;
       padding: .5rem;
       border-bottom: 1px solid #eee;
-      div {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        width: 100%;
-        height: 100%;
-        img {
-          cursor: pointer;
-        }
+      img {
+        cursor: pointer;
       }
     }
     .menu-list {

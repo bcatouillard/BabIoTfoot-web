@@ -45,28 +45,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
-    //Doc https://nuxt-socket-io.netlify.app
-    'nuxt-socket-io'
+    '@nuxtjs/pwa'
   ],
-
-  io: {
-    sockets: [
-      {
-        name: 'default',
-        url: process.env.WEBSOCKET_URL,
-        default: true,
-        extraHeaders: {
-          "Sec-WebSocket-Protocol" : "myprotocol"
-        }
-      }
-    ],
-    server: {
-      cors: {
-        origin: "*"
-      }
-    }
-  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -81,7 +61,9 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      name: 'babiotfoot',
+      lang: 'fr',
+      useWebmanifestExtension: false
     }
   },
 

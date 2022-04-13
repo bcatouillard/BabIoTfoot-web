@@ -15,13 +15,13 @@ import RankTable from '~/components/RankTable.vue'
 export default {
   name: 'RankingPage',
   components: { RankTable },
-  head: {
-    title: 'BabIoTFoot - Matchs'
-  },
   data () {
     return {
       items: []
     }
+  },
+  head: {
+    title: 'BabIoTFoot - Matchs'
   },
   computed: {
     ...mapState({

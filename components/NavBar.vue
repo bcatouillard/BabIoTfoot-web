@@ -2,18 +2,18 @@
   <aside class="menu" :class="{'is-active': isActive, 'is-inactive': !isActive}">
     <div v-if="isActive" class="container">
       <h1>BabIoTFoot</h1>
-      <img src="~/assets/icons/close.svg" @click="toggleMenu()" />
+      <img src="~/assets/icons/close.svg" @click="toggleMenu()">
     </div>
     <div v-else>
       <div>
-        <img src="~/assets/icons/burger.svg" @click="toggleMenu()" />
+        <img src="~/assets/icons/burger.svg" @click="toggleMenu()">
       </div>
     </div>
     <ul class="menu-list">
       <li v-for="(item, index) in items" :key="index" class="menu-item">
         <NuxtLink :to="item.to.path" class="menu-item-link">
           <span class="menu-item-link-icon">
-            <img :src="require(`~/assets/icons/${item.icon}.svg`)" />
+            <img :src="require(`~/assets/icons/${item.icon}.svg`)">
           </span>
           <span>
             {{ item.title }}
